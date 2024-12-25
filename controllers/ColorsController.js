@@ -1,23 +1,15 @@
-import Journal from "../models/Journal.js";
+import Colors from "../models/Colors.js";
 import mongoose from "mongoose";
 // Функция для создания нового FAQ
-export const createJournal = async (req, res) => {
+
+export const createColor = async (req, res) => {
   try {
-    const { title, par, text, img, type, subType, brand, isAdd, isMetr, colors, files } = req.body;
+    const { title, img } = req.body;
 
     // Создаем новый FAQ и сохраняем его в базе данных
-    const newFaq = new Journal({
+    const newFaq = new Colors({
       title,
-      par, // Дополнительный вопрос (если есть)
-      text,
       img,
-      brand,
-      subType,
-      type,
-      isAdd,
-      isMetr,
-      colors,
-      files
     });
 
     await newFaq.save();
@@ -33,7 +25,7 @@ export const createJournal = async (req, res) => {
 export const getLatestJournal = async (req, res) => {
   try {
     // Находим самую свежую запись, отсортированную по дате создания
-    const latestFaq = await Journal.find();
+    const latestFaq = await Colors.find();
 
     if (!latestFaq) {
       return res.status(404).json({ message: "FAQ не найден." });
@@ -49,21 +41,22 @@ export const getLatestJournal = async (req, res) => {
 // Функция для обновления последнего FAQ
 export const updateJournal = async (req, res) => {
   try {
-    const { id, title, par, text, type, subType, brand, isAdd, isMetr, colors, files } = req.body;
+    const { id, title } = req.body;
+
 
     // Проверяем, является ли ID валидным ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Некорректный формат ID' });
     }
 
-    if (!title || !text) {
+    if (!title) {
       return res.status(400).json({ error: 'Необходимо указать title и text' });
     }
 
     // Находим и обновляем или создаём новую запись
-    const updatedFaq = await Journal.findOneAndUpdate(
+    const updatedFaq = await Colors.findOneAndUpdate(
       { _id: id },
-      { title, par, text, type, subType, brand, isAdd, isMetr, colors, files },
+      { title },
       { new: true, upsert: true } // upsert создаёт запись, если её нет
     );
 
@@ -81,7 +74,7 @@ export const deleteJournal = async (req, res) => {
       const { id } = req.body;
   
       // Ищем и удаляем запись по id
-      const deletedFaq = await Journal.findByIdAndDelete(id);
+      const deletedFaq = await Colors.findByIdAndDelete(id);
   
       if (!deletedFaq) {
         return res.status(404).json({ message: "FAQ не найден для удаления." });

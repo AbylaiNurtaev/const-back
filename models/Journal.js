@@ -14,7 +14,18 @@ const JournalSchema = new mongoose.Schema({
     },
     img: {
         type: String
-    }
+    },
+    colors: [String],
+    brand: String,
+    type: String,
+    subType: String,
+    isAdd: Boolean,
+    isMetr: {
+        type: Boolean,
+        default: false
+    },
+    files: [String]
+
 })
 
 export default mongoose.model('Journal', JournalSchema);
