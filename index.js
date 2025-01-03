@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs'
+import crypto from 'crypto'
 dotenv.config();
 
 import sharp from 'sharp';
@@ -18,7 +19,7 @@ import * as JournalController from './controllers/JournalController.js'
 import * as ColorsController from './controllers/ColorsController.js'
 import * as FilesController from './controllers/FilesController.js'
 import Journal from './models/Journal.js';
-import crypto from 'crypto'
+
 import Colors from './models/Colors.js';
 
 const bucketName = process.env.BUCKET_NAME
